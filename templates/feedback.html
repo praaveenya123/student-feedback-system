@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Feedback</title>
+  <style>
+    /* General Styles */
+    body {
+      background: linear-gradient(to right, #4B0082, #ADD8E6);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    /* Navigation Bar */
+    nav {
+      width: 100%;
+      background-color: #222;
+      padding: 10px 0;
+      text-align: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+    nav ul li {
+      margin: 0 10px;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 14px 20px;
+      display: inline-block;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    nav ul li a:hover {
+      background-color: #555;
+      border-radius: 5px;
+    }
+    .active {
+      background-color: #04AA6D;
+      border-radius: 5px;
+    }
+    /* Feedback Form Container */
+    .feedback-container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      margin-top: 80px;
+    }
+    h1, h2, h3 {
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 14px;
+      margin-bottom: 20px;
+      opacity: 0.8;
+    }
+    /* Radio Buttons */
+    .question {
+      text-align: left;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 15px 0 10px;
+    }
+    .options {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .options label {
+      display: block;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .options label:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+    .options input {
+      margin-right: 10px;
+    }
+    /* Additional Comments Textarea */
+    .additional-comments {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      resize: vertical;
+    }
+    /* Buttons */
+    .submit-btn {
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+    .submit-btn:hover {
+      background-color: #45a049;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <ul>
+      {% if session.get('role') == 'admin' %}
+        <!-- Minimal Admin Nav -->
+        <li><a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a></li>
+        <li><a class="active" href="{{ url_for('feedback_form') }}">Feedback</a></li>
+      {% else %}
+        <!-- Full Student Nav -->
+        <li><a href="/home">Home</a></li>
+        <li><a href="/Show_subjects">Show Subjects</a></li>
+        <li><a class="active" href="/feedback">Feedback</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/change_password">Change Password</a></li>
+        <li><a href="/logout">Logout</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  {% if session.get('role') == 'student' %}
+    <!-- STUDENT VIEW: Real feedback form with submit button -->
+    <div class="feedback-container">
+      <h1>Student Feedback Form</h1>
+      <p>Your feedback is valuable in improving our teaching quality.</p>
+      <form action="{{ url_for('submit_feedback') }}" method="POST" onsubmit="return confirm('Are you sure you want to submit your feedback?');">
+        
+        <!-- Subject Dropdown (optional) -->
+        {% if subjects %}
+          <div class="subject-select">
+            <label for="subject_id">Select Subject:</label>
+            <select name="subject_id" id="subject_id" required>
+              {% for subject in subjects %}
+                <option value="{{ subject.id }}"
+                  {% if selected_subject_id == subject.id %} selected {% endif %}>
+                  {{ subject.name }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+        {% endif %}
+        
+        <!-- Loop through dynamic questions -->
+        {% for question in questions %}
+          <div class="question">{{ question.question_text }}</div>
+          <div class="options">
+            {% for option in question.options %}
+              <label>
+                <input type="radio" name="question_{{ question.id }}" value="{{ option.id }}" required>
+                {{ option.option_text }}
+              </label>
+            {% endfor %}
+          </div>
+        {% endfor %}
+        
+        <!-- Additional Comments Textarea -->
+        <div>
+          <label for="additional_feedback">Additional Comments (if any):</label>
+          <textarea id="additional_feedback" name="additional_feedback" class="additional-comments" rows="4" placeholder="Type your ideas or complaints here..."></textarea>
+        </div>
+        
+        <button type="submit" class="submit-btn">Submit Feedback</button>
+      </form>
+    </div>
+    
+  {% else %}
+    <!-- ADMIN VIEW: Preview only (no submit) -->
+    <div class="feedback-container">
+      <h2>Update Feedback Form (Preview)</h2>
+      <!-- Display questions/options in read-only mode with DELETE option -->
+      {% for question in questions %}
+        <div class="question">
+          {{ question.question_text }}
+          <!-- DELETE link for admin (using a POST form) -->
+          <form action="{{ url_for('delete_question', question_id=question.id) }}" method="POST" style="display: inline;">
+            <button type="submit" style="color: red; background: none; border: none; cursor: pointer; font-size:14px;" onclick="return confirm('Are you sure you want to delete this question?');">
+              Delete
+            </button>
+          </form>
+        </div>
+        <div class="options">
+          {% for option in question.options %}
+            <label style="opacity: 0.6;">
+              <input type="radio" disabled>
+              {{ option.option_text }}
+            </label>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- ADMIN: Form to add a new question -->
+    <div class="feedback-container" style="margin-top: 20px;">
+      <h2>Add New Question</h2>
+      <form action="{{ url_for('add_question') }}" method="POST">
+        <label for="question_text">Question Text:</label>
+        <input type="text" id="question_text" name="question_text" required>
+
+        <label for="option_texts">Options (comma-separated):</label>
+        <input type="text" id="option_texts" name="option_texts" required>
+
+        <button type="submit" class="submit-btn">Save Question</button>
+      </form>
+    </div>
+  {% endif %}
+
+</body>
+</html>
