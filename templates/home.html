@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+  <style>
+    /* General Styles */
+    body {
+      background: linear-gradient(to right, #4B0082, #ADD8E6);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Navigation Bar */
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #333;
+      display: flex;
+      justify-content: center;
+    }
+
+    ul li {
+      display: inline;
+    }
+
+    ul li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 20px;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    ul li a:hover:not(.active) {
+      background-color: #b60e8c;
+    }
+
+    .active {
+      background-color: #04AA6D;
+    }
+
+    /* Main Content */
+    .container {
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .card {
+      background: linear-gradient(to right, #800080, #4B0082);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .title {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 24px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .description {
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .card {
+        padding: 20px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <ul>
+    <li><a class="active" href="home">Home</a></li>
+    <li><a href="Show_subjects">Show Subjects</a></li>
+    <li><a href="contact">Contact</a></li>
+    <li><a href="change_password">Change Password</a></li>
+    <li><a href="logout">Logout</a></li>
+  </ul>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="card">
+      <div class="title">MVGR College of Engineering</div>
+      <div class="subtitle">Department of Information Technology</div>
+      <div class="description">Welcome to the Student Feedback System</div>
+    </div>
+  </div>
+
+</body>
+</html>
