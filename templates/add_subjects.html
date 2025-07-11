@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Subject</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #4B0082, #ADD8E6);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+     /* Navigation Bar */
+     nav {
+      background-color: #333;
+      padding: 10px 20px;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: flex-start;
+    }
+    nav ul li {
+      margin-right: 20px;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 6px 12px;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    nav ul li a:hover {
+      background-color: #04AA6D;
+    }
+    
+    /* Main Container */
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+    /* Page Title */
+    .container h1 {
+      text-align: center;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 32px;
+      color: #34c021;
+      margin-bottom: 20px;
+    }
+    /* Form Styles */
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    form label {
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    form input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    form button {
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      background-color: #04AA6D;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    form button:hover {
+      background-color: #03905d;
+    }
+    /* Flash Messages */
+    .alert {
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .alert-error {
+      background-color: #f2dede;
+      color: #a94442;
+    }
+    .alert-success {
+      background-color: #dff0d8;
+      color: #3c763d;
+    }
+    /* Link Styles */
+    .view-subjects {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .view-subjects a {
+      color: #04AA6D;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .view-subjects a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <ul>
+        <li><a href="admin_dashboard">Admin dashboard</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Display flashed messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <h1>Add Subject</h1>
+    <form method="POST">
+      <label for="subject_name">Subject Name</label>
+      <input type="text" id="subject_name" name="subject_name" placeholder="Enter subject name" required>
+      <button type="submit">Add Subject</button>
+    </form>
+
+    <div class="view-subjects">
+      <p><a href="Show_subjects">View All Subjects</a></p>
+    </div>
+  </div>
+</body>
+</html>
