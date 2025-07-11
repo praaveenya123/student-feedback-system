@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #85d0e8;
+      display: flex; /* Allows sidebar + main content side by side */
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background-color: #333;
+      color: white;
+      padding-top: 20px;
+      position: fixed; /* Keeps the sidebar fixed on the left */
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar ul li {
+      border-bottom: 1px solid #555;
+    }
+
+    .sidebar ul li a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 15px;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar ul li a:hover {
+      background-color: #04AA6D;
+      border-radius: 5px;
+    }
+
+    .active {
+      background-color: #04AA6D;
+      border-radius: 5px;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 250px; /* Matches the .sidebar width */
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    .card {
+      background: linear-gradient(to right, #800080, #4B0082);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .title {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100px;
+      }
+
+      .sidebar h2 {
+        font-size: 16px;
+      }
+
+      .sidebar ul li a {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .main-content {
+        margin-left: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Admin Panel</h2>
+    <ul>
+      <li><a href="admin_dashboard" class="active">Admin Dashboard</a></li>
+      <li><a href="add_subjects">Add Subject</a></li>
+      <li><a href="view_feedback">View Feedback</a></li>
+      <li><a href="register">Add Users</a></li>
+      <li><a href="feedback">feedback form</a></li>
+      <li><a href="change_password">Change password</a></li>
+      <li><a href="logout">Logout</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="card">
+      <h2 class="title">Welcome, Admin!</h2>
+      <p class="description">
+        Use the links in the sidebar to manage subjects, feedback, and more.
+      </p>
+    </div>
+  </div>
+
+</body>
+</html>
