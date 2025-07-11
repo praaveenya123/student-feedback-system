@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subjects</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #4B0082, #ADD8E6);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    /* Navigation Bar */
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #333;
+      display: flex;
+      justify-content: center;
+    }
+    ul li {
+      display: inline;
+    }
+    ul li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 20px;
+      text-decoration: none;
+      font-size: 18px;
+    }
+    ul li a:hover:not(.active) {
+      background-color: #b60e8c;
+    }
+    .active {
+      background-color: #04AA6D;
+    }
+    /* Page Title */
+    .title {
+      text-align: center;
+      margin: 30px 0;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 32px;
+      color: #34c021;
+      font-weight: bold;
+    }
+    /* Subjects Container */
+    .subjects-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 0 20px;
+    }
+    .subject-card {
+      background: white;
+      padding: 20px;
+      width: 280px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: 0.3s;
+    }
+    .subject-card:hover {
+      transform: scale(1.05);
+    }
+    .subject-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .feedback-btn {
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: white;
+      font-weight: bold;
+      width: 100%;
+      transition: 0.3s;
+    }
+    .feedback-btn:hover {
+      background-color: #45a049;
+    }
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+
+  {% if session.get('role') == 'student' %}
+  <script>
+    // Build a JavaScript array of subject names using Jinja for-loop.
+    let subjects = [];
+    {% for s in subjects %}
+      subjects.push("{{ s.name }}");
+    {% endfor %}
+
+    document.addEventListener("DOMContentLoaded", function() {
+      // Check if the URL has a "subj_submitted" query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const submittedSubject = urlParams.get('subj_submitted');
+      if (submittedSubject) {
+        sessionStorage.setItem(submittedSubject, "submitted");
+        // Remove the query parameter from the URL after processing
+        urlParams.delete('subj_submitted');
+        window.history.replaceState({}, '', window.location.pathname);
+      }
+      // Disable buttons for subjects that have been submitted.
+      subjects.forEach(function(subj) {
+        if (sessionStorage.getItem(subj) === "submitted") {
+          let btn = document.getElementById("btn_" + subj);
+          if (btn) {
+            btn.disabled = true;
+          }
+        }
+      });
+    });
+  
+    function checkFeedback(subjectName) {
+      if (sessionStorage.getItem(subjectName) === "submitted") {
+        alert("You have already submitted feedback for " + subjectName);
+        return false;
+      }
+      return true;
+    }
+  </script>
+  {% endif %}
+</head>
+<body>
+
+  <!-- Navigation Bar (Direct links, no url_for) -->
+  <ul>
+    <li><a href="student_dashboard">Student dashboard</a></li>
+  </ul>
+
+  <!-- Flash messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div style="text-align:center; margin-top:60px;">
+        {% for category, message in messages %}
+          <div style="padding:10px; margin:5px; background-color: {% if category == 'success' %}#dff0d8{% else %}#f2dede{% endif %}; color: {% if category == 'success' %}#3c763d{% else %}#a94442{% endif %}; border-radius:5px;">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Page Title -->
+  <div class="title">Subjects Offered</div>
+
+  <!-- Subjects List -->
+  <div class="subjects-container">
+    {% for subject in subjects %}
+      <div class="subject-card">
+        <div class="subject-title">{{ subject.name }}</div>
+
+        {% if session.get('role') == 'student' %}
+          <!-- Student view: Show the feedback button -->
+          <a href="{{ url_for('feedback_form', subject_id=subject.id) }}"
+             onclick="return checkFeedback('{{ subject.name }}')">
+             <button id="btn_{{ subject.name }}" class="feedback-btn">Give Feedback</button>
+          </a>
+        {% else %}
+          <!-- Admin view: Show the subject ID and an Edit link -->
+          <p>ID: {{ subject.id }}</p>
+          <p>
+            <a href="{{ url_for('edit_subjects', subject_id=subject.id) }}">Edit</a>
+          </p>
+        {% endif %}
+      </div>
+    {% else %}
+      <p>No subjects available.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Back Link (Direct links, no url_for) -->
+  <div class="back-link">
+    {% if session.get('role') == 'admin' %}
+      <a href="admin_dashboard">Back to Dashboard</a>
+    {% endif %}
+  </div>
+
+</body>
+</html>
