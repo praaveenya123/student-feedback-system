@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #4B0082, #ADD8E6);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    * Navigation Bar */
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #333;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    ul li {
+      display: inline;
+    }
+
+    ul li a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 14px 20px;
+      font-size: 18px;
+    }
+
+    ul li a:hover:not(.active) {
+      background-color: #b60e8c;
+    }
+
+    .active {
+      background-color: #04AA6D;
+    }
+
+    /* Contact Info Box */
+    .contact-container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      margin-top: 80px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+
+    <ul>
+      <li><a href="student_dashboard">Student dashboard</a></li>
+    </ul>
+  </nav>
+
+  <!-- Contact Information -->
+  <div class="contact-container">
+    <h1>Contact Information</h1>
+    <p>Email: <a href="mailto:contact@mvgrce.edu" style="color: #FFD700; text-decoration: none;">contact@mvgrce.edu</a></p>
+    <p>Phone: <a href="tel:+911234567890" style="color: #FFD700; text-decoration: none;">+91 1234567890</a></p>
+  </div>
+
+</body>
+</html>
